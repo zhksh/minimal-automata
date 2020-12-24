@@ -4,6 +4,10 @@ MinDict Implementation für das Basismodul im Master Computerlinguistik.
 from itertools import count
 from collections import OrderedDict
 
+
+#need to hcekc for the register,
+#when
+
 class MinDict:
     """
     Konstruktion  eines  minimierten  Automaten  anhandeiner sortierten Wortliste
@@ -34,11 +38,13 @@ class MinDict:
             self.add_suffix(curr_suffix, split_state)
         self.replace_or_register(self.initial_state)
 
-
+#TODO check if ommission of register is valid
     def replace_or_register(self, state) -> None:
         """
         Method for replacing superflous states.
         """
+
+        #TODO selecting laast child should be straighforward when using ordered dict, no?
         last_child = list(self.transitions[state].items())[len(self.transitions[state]) - 1]
         last_child_label, last_child_state = last_child[0], last_child[1]
 
@@ -120,6 +126,12 @@ class MinDict:
         if state in self.final_states:
             return True
         return False
+
+
+    def build_tarjan_table(self) -> None:
+        self.ttable = []
+
+
 
 
     ## PROPERTIES ##

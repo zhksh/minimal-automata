@@ -9,6 +9,7 @@ MESSAGES = {
     Was möchtest Du tun?
         (1) Wort abfragen
         (2) Automaten zeichnen
+        (3) tARJA tABLLE RESTELLEN
         (X) Program verlassen
 """,
         "input" : "Bitte eingeben >>> ",

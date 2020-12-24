@@ -5,6 +5,7 @@ Entry file for the MinDict Implementation.
 
 from argparse import ArgumentParser
 from daciuk import MinDict
+from Tarjantable import Tarjantable
 from draw import draw_automaton
 from ui_strings import MESSAGES
 
@@ -54,6 +55,12 @@ def main():
         if inputted == "2":
             figure = draw_automaton(min_dict)
             figure.render('graphviz/aut.gv', view=True)
+            print("\n\033[96m" + MESSAGES[language]["saved"] + "\033[0m\n")
+            continue
+
+        if inputted == "3":
+            tt = Tarjantable(trie=min_dict)
+
             print("\n\033[96m" + MESSAGES[language]["saved"] + "\033[0m\n")
             continue
 
