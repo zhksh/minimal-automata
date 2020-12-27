@@ -4,6 +4,7 @@ class Tarjantable():
         self.tt = []
         self.last_slot = 0
         if trie is not None:
+            parents = trie.parents_of(trie.final_states)
             for state, transitions in trie.transitions.items():
                 self.store_state(state, trie.transitions, state in trie.final_states)
 
@@ -27,12 +28,18 @@ class Tarjantable():
         state_slot = self.find_slot(state, transitions)
         self.tt[state_slot] = (state, "state", is_final)
         for label, s in transitions[state].items():
-            self.tt[state_slot + ord(label)] = ("trans", label, s)
+            self.tt[state_slot + ord(label)] = ("trans", label, self.index_of(s))
 
         while self.tt[self.last_slot] is not None: self.last_slot += 1
 
         return state_slot
 
+
+    def index_of(self, state_id) -> int:
+        for i, cell in enumerate(self.tt,0):
+            if cell is not None and cell[1] == 'state' and cell[0] == state_id: return i
+
+        raise Exception("implementation err: {} was not found".format(state_id))
 
     def alloc_check_cell(self,slot, char) -> bool:
         next_index = slot + ord(char)

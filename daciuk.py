@@ -82,6 +82,14 @@ class MinDict:
         return False
 
 
+    def parents_of(self, children):
+        parents = []
+        for c in children:
+            parents.extend([p for p in self.transitions[c]])
+
+        return parents
+
+
     def commonprefix(self, word) -> (str, int):
         """
         Method to obtain the longest common prefix of a new word and the already stored words.
