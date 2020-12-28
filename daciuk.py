@@ -82,10 +82,17 @@ class MinDict:
         return False
 
 
-    def parents_of(self, children):
+    def find_last_state(self):
+        for state_id in self.transitions:
+            if not self.has_children(state_id): return state_id
+
+
+    def parents_of(self, children_ids):
         parents = []
-        for c in children:
-            parents.extend([p for p in self.transitions[c]])
+        for c_id in children_ids:
+            for parent_id, transitions in self.transitions.items():
+                if c_id in transitions.values():
+                    parents.append(parent_id)
 
         return parents
 
