@@ -87,12 +87,12 @@ class MinDict:
             if not self.has_children(state_id): return state_id
 
 
-    def parents_of(self, children_ids):
+    def parents_of(self, child_states):
         parents = []
-        for c_id in children_ids:
-            for parent_id, transitions in self.transitions.items():
-                if c_id in transitions.values():
-                    parents.append(parent_id)
+        for child_state in child_states:
+            for parent_id, parent_transitions in self.transitions.items():
+                for label, target_state in parent_transitions.items():
+                    if target_state == child_state: parents.append((label, parent_id))
 
         return parents
 
@@ -141,14 +141,6 @@ class MinDict:
         if state in self.final_states:
             return True
         return False
-
-
-    def back_iterate(self, child_state,callback=None) -> None:
-        parent_states = self.parents_of(child_state)
-        if len(parent_states) == 0: return
-        for parent_state in parent_states:
-            self.back_iterate(parent_state)
-
 
 
     ## PROPERTIES ##

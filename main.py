@@ -44,7 +44,7 @@ def main():
             MESSAGES[language]["welcome"]
         )
         inputted = input(MESSAGES[language]["input"])
-        inputted = 3
+        # inputted = "3"
 
         if inputted == "1":
             word = input(MESSAGES[language]["wordinput"])
@@ -64,11 +64,13 @@ def main():
             tt = Tarjantable(trie=min_dict)
 
             print("\n\033[96m" + MESSAGES[language]["saved"] + "\033[0m\n")
+            exit(0)
             continue
 
         if inputted == "X":
             print(MESSAGES[language]["bye"])
             break
+
         print("\n\033[91m" + MESSAGES[language]["warning"] + "\033[0m\n")
 
 
