@@ -1,4 +1,5 @@
 from typing import Dict
+
 class Tarjantable():
     def __init__(self, trie=None) -> None:
         self.tt = [None]
@@ -6,11 +7,8 @@ class Tarjantable():
         if trie is not None:
             mostright_state = trie.find_last_state()
             self.store_state(mostright_state, trie.transitions, mostright_state in trie.final_states)
-            parents = trie.parents_of([mostright_state])
-            while len(parents) > 0:
-                for parent_id in parents:
-                    self.store_state(parent_id, trie.transitions, parent_id in trie.final_states)
-                parents = trie.parents_of(parents)
+            trie.back_iterate()
+
 
 
 
@@ -27,6 +25,7 @@ class Tarjantable():
             while self.tt[slot] is not None: slot += 1
 
         return slot
+
 
 
     def store_state(self, state: int, transitions: Dict[int, Dict[str, int]], is_final: bool) -> int:

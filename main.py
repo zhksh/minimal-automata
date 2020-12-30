@@ -44,6 +44,7 @@ def main():
             MESSAGES[language]["welcome"]
         )
         inputted = input(MESSAGES[language]["input"])
+        inputted = 3
 
         if inputted == "1":
             word = input(MESSAGES[language]["wordinput"])

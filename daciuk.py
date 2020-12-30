@@ -143,9 +143,11 @@ class MinDict:
         return False
 
 
-    def build_tarjan_table(self) -> None:
-        self.ttable = []
-
+    def back_iterate(self, child_state,callback=None) -> None:
+        parent_states = self.parents_of(child_state)
+        if len(parent_states) == 0: return
+        for parent_state in parent_states:
+            self.back_iterate(parent_state)
 
 
 
