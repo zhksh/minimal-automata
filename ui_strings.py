@@ -14,6 +14,7 @@ MESSAGES = {
 """,
         "input" : "Bitte eingeben >>> ",
         "saved" : "Gespeichert.",
+        "tt saved" : "Tarjantable saved",
         "wordinput": "Bitte das Wort eingeben >>> ",
         "wordNotInLang" : "ist nicht Teil der Sprache.",
         "wordInLang" : "ist Teil der Sprache.",
