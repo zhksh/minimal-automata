@@ -1,6 +1,10 @@
 .idea
 *.iml
 
+test.py
+wordlist*
+.vscode
+graphviz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
