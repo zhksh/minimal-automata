@@ -41,8 +41,13 @@ class MinDict:
 
             self.add_suffix(curr_suffix, split_state)
         self.replace_or_register(self.initial_state)
+        if self.tarjan is not None:
+            self.tarjan.store_state(self.initial_state,
+                                    self.transitions[self.initial_state],
+                                    False)
 
-#TODO check if ommission of register is valid
+
+    #TODO check if ommission of register is valid
     def replace_or_register(self, state) -> None:
         """
         Method for replacing superflous states.
@@ -61,9 +66,11 @@ class MinDict:
             if last_child_state in self.final_states:
                 self.final_states.remove(last_child_state)
             del self.transitions[last_child_state]
-        # else:
-        #     if self.tarjan is not None:
-        #         self.tarjan.store_state(state, self.transitions[state], state in self.final_states)
+        else:
+            if self.tarjan is not None:
+                self.tarjan.store_state(last_child_state,
+                                        self.transitions[last_child_state],
+                                        last_child_state in self.final_states)
 
 
     def equivalent(self, left_state) -> bool:
@@ -131,8 +138,8 @@ class MinDict:
             else:
                 self.transitions[state] = OrderedDict()
                 self.transitions[state][char] = next_state
-            if self.tarjan is not None:
-                self.tarjan.store_state(state, self.transitions[state], state in self.final_states)
+            # if self.tarjan is not None:
+            #     self.tarjan.store_state(state, self.transitions[state], state in self.final_states)
             state = next_state
         self.transitions[state] = OrderedDict()
         self.final_states.add(state)

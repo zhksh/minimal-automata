@@ -32,28 +32,30 @@ class Tarjantable():
                    slot += 1
                    break
             if success: return slot
-            while self.tt[slot] is not None: slot += 1
+            while self.tt[slot] is not None:
+                slot += 1
         return slot
-
 
 
     def store_state(self, state: int, transitions: Dict[str, int], is_final: bool) -> int:
         state_slot = self.find_slot(state, transitions)
-
         self.tt[state_slot] = ("state", state, is_final)
-
-
         for label, right_state in transitions.items():
             self.tt[state_slot + ord(label)] = ("trans", label, self.index_of(right_state))
-
-        while not self.last_slot >= len(self.tt) and self.tt[self.last_slot] is not None: self.last_slot += 1
+        self.inc_last_slot()
 
         return state_slot
 
 
+    def inc_last_slot(self):
+        while not self.last_slot >= len(self.tt) and self.tt[self.last_slot] is not None:
+            self.last_slot += 1
+
+
     def index_of(self, state) -> int:
         for i, cell in enumerate(self.tt,0):
-            if cell is not None and cell[1] == 'state' and cell[0] == state: return i
+            if cell is not None and cell[0] == 'state' and cell[1] == state:
+                return i
 
         return -1
 

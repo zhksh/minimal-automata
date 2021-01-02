@@ -43,8 +43,8 @@ def main():
         print(
             MESSAGES[language]["welcome"]
         )
-        #inputted = input(MESSAGES[language]["input"])
-        inputted = "3"
+        inputted = input(MESSAGES[language]["input"])
+        # inputted = "3"
 
         if inputted == "1":
             word = input(MESSAGES[language]["wordinput"])
