@@ -33,8 +33,8 @@ class Tarjantable():
          the original state_id is left only for debugging purposes"""
         state_slot = self.find_slot(state, transitions)
         self.tt[state_slot] = (self.state_cell_desc, state, is_final)
-        for label, right_state in transitions.items():
-            self.tt[state_slot + ord(label)] = (self.trans_cell_desc, label, self.index_of(right_state))
+        for label, target in transitions.items():
+            self.tt[state_slot + ord(label)] = (self.trans_cell_desc, label, self.index_of(target))
         self.inc_last_slot()
         if is_init: self.init_state = state_slot
         return state_slot
