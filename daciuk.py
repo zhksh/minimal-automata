@@ -3,25 +3,20 @@ MinDict Implementation für das Basismodul im Master Computerlinguistik.
 """
 from itertools import count
 from collections import OrderedDict
+from Tarjantable import Tarjantable
 
 
-#need to hcekc for the register,
-#when
 
 class MinDict:
     """
     Konstruktion  eines  minimierten  Automaten  anhandeiner sortierten Wortliste
     """
-    def __init__(self, words, build_tt=False):
+    def __init__(self, words):
         self.final_states = set()
-        self.register = set()
         self.curr_id = count()
         self.transitions = dict()
         self.initial_state = 0
-        self.tarjan = None
-        if build_tt:
-            from Tarjantable import Tarjantable
-            self.tarjan = Tarjantable()
+        self.tarjan = Tarjantable()
 
         next(self.curr_id)
 
@@ -41,20 +36,19 @@ class MinDict:
 
             self.add_suffix(curr_suffix, split_state)
         self.replace_or_register(self.initial_state)
-        if self.tarjan is not None:
-            self.tarjan.store_state(self.initial_state,
+        self.tarjan.store_state(self.initial_state,
                                     self.transitions[self.initial_state],
-                                    False)
+                                    False,
+                                    is_init=True)
 
 
-    #TODO check if ommission of register is valid
     def replace_or_register(self, state) -> None:
         """
         Method for replacing superflous states.
         """
 
-        #TODO selecting laast child should be straighforward when using ordered dict, no?
-        last_child = list(self.transitions[state].items())[len(self.transitions[state]) - 1]
+        # this is O(1) so ..
+        last_child = next(reversed(self.transitions[state].items()))
         last_child_label, last_child_state = last_child[0], last_child[1]
 
         if self.has_children(last_child_state):
@@ -67,10 +61,9 @@ class MinDict:
                 self.final_states.remove(last_child_state)
             del self.transitions[last_child_state]
         else:
-            if self.tarjan is not None:
-                self.tarjan.store_state(last_child_state,
-                                        self.transitions[last_child_state],
-                                        last_child_state in self.final_states)
+            self.tarjan.store_state(last_child_state,
+                                    self.transitions[last_child_state],
+                                    last_child_state in self.final_states)
 
 
     def equivalent(self, left_state) -> bool:
@@ -91,24 +84,7 @@ class MinDict:
         """
         Check if the state has children states.
         """
-        if len(self.transitions[state]) > 0:
-            return True
-        return False
-
-
-    def find_last_state(self):
-        for state_id in self.transitions:
-            if not self.has_children(state_id): return state_id
-
-
-    def parents_of(self, child_states):
-        parents = []
-        for child_state in child_states:
-            for parent_id, parent_transitions in self.transitions.items():
-                for label, target_state in parent_transitions.items():
-                    if target_state == child_state: parents.append((label, parent_id))
-
-        return parents
+        return len(self.transitions[state]) > 0
 
 
     def commonprefix(self, word) -> (str, int):
@@ -158,6 +134,13 @@ class MinDict:
             return True
         return False
 
+
+    def is_in_tarjan_table(self, word) -> bool:
+        """
+        Method to check wether a word is in the dict or not using the constructed Tarjan table, we could actually
+        throw away the transitions now.
+        """
+        return self.tarjan.is_in_language(word)
 
     ## PROPERTIES ##
 
