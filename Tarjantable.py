@@ -61,7 +61,7 @@ class Tarjantable():
 
         next_index = slot + ord(char)
         if next_index >= len(self.tt):
-            self.tt.extend([None]*(next_index-len(self.tt)+1))
+            self.tt.extend([None]*(next_index-len(self.tt)+2))
             return True
         return self.tt[next_index] is None
 

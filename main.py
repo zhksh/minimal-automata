@@ -35,8 +35,8 @@ def main():
         "-wl",
         "--wordlist",
         type=str,
-        default="wl.test",
-        # default="wordlist.txt",
+        # default="wl.test",
+        default="wordlist.txt",
         help="Path to the sorted wordlist")
     args = parser.parse_args()
 
