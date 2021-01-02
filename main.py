@@ -61,7 +61,9 @@ def main():
             continue
 
         if inputted == "3":
-            tt = Tarjantable(trie=min_dict)
+            min_dict = MinDict(words,build_tt=True)
+
+            # tt = Tarjantable(trie=min_dict)
 
             print("\n\033[96m" + MESSAGES[language]["tt saved"] + "\033[0m\n")
             exit(0)

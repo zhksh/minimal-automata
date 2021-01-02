@@ -12,12 +12,16 @@ class MinDict:
     """
     Konstruktion  eines  minimierten  Automaten  anhandeiner sortierten Wortliste
     """
-    def __init__(self, words):
+    def __init__(self, words, build_tt=False):
         self.final_states = set()
         self.register = set()
         self.curr_id = count()
         self.transitions = dict()
         self.initial_state = 0
+        self.tarjan = None
+        if build_tt:
+            from Tarjantable import Tarjantable
+            self.tarjan = Tarjantable()
 
         next(self.curr_id)
 
@@ -57,6 +61,9 @@ class MinDict:
             if last_child_state in self.final_states:
                 self.final_states.remove(last_child_state)
             del self.transitions[last_child_state]
+        # else:
+        #     if self.tarjan is not None:
+        #         self.tarjan.store_state(state, self.transitions[state], state in self.final_states)
 
 
     def equivalent(self, left_state) -> bool:
@@ -124,6 +131,8 @@ class MinDict:
             else:
                 self.transitions[state] = OrderedDict()
                 self.transitions[state][char] = next_state
+            if self.tarjan is not None:
+                self.tarjan.store_state(state, self.transitions[state], state in self.final_states)
             state = next_state
         self.transitions[state] = OrderedDict()
         self.final_states.add(state)

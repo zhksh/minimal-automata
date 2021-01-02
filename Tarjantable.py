@@ -13,21 +13,20 @@ class Tarjantable():
 
 
     def postorder_iterate(self, child_state: int) -> None:
-        # self.store_state(child_state, label, self.trie.transitions[child_state], child_state in self.trie.final_states)
+        self.store_state(child_state,  self.trie.transitions[child_state], child_state in self.trie.final_states)
         parent_states = self.trie.parents_of([child_state])
         if len(parent_states) == 0: return
         for label, parent_state in parent_states:
-            self.store_state(parent_state, label, child_state, parent_state in self.trie.final_states)
             self.postorder_iterate(parent_state)
 
         return
 
 
-    def find_slot(self, state: int) -> int:
+    def find_slot(self, state: int, transitions) -> int:
         slot = self.last_slot
         while True:
             success = True
-            for label, s in self.trie.transitions[state].items():
+            for label, s in transitions.items():
                 if not self.is_empty_or_alloc(slot, label):
                    success = False
                    slot += 1
@@ -38,20 +37,14 @@ class Tarjantable():
 
 
 
-    def store_state(self, state: int,label: str, child_state: int, is_final: bool) -> int:
-        state_idx = self.index_of(state)
-        if state_idx == -1:
-            state_slot = self.find_slot(state)
-            self.tt[state_slot] = (state, "state", is_final)
-        else:
-            last_slot_tmp = self.last_slot
-            self.last_slot = state_idx
-            state_slot = self.find_slot(state)
-            self.last_slot = last_slot_tmp
+    def store_state(self, state: int, transitions: Dict[str, int], is_final: bool) -> int:
+        state_slot = self.find_slot(state, transitions)
 
-        # for label, s in transitions.items():
-        if label is not None:
-            self.tt[state_slot + ord(label)] = ("trans", label, self.index_of(child_state))
+        self.tt[state_slot] = ("state", state, is_final)
+
+
+        for label, right_state in transitions.items():
+            self.tt[state_slot + ord(label)] = ("trans", label, self.index_of(right_state))
 
         while not self.last_slot >= len(self.tt) and self.tt[self.last_slot] is not None: self.last_slot += 1
 
