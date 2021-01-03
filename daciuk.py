@@ -11,7 +11,7 @@ class MinDict:
     """
     Konstruktion  eines  minimierten  Automaten  anhandeiner sortierten Wortliste
     """
-    def __init__(self, words):
+    def __init__(self, data_generator):
         self.final_states = set()
         self.curr_id = count()
         self.transitions = dict()
@@ -20,21 +20,25 @@ class MinDict:
 
         next(self.curr_id)
 
-        self.compile(words)
+        self.compile(data_generator)
 
 
-    def compile(self, words) -> None:
+    def compile(self, data_generator) -> None:
         """
         Method for compilation of the automaton
         """
-        for word in words:
-            common_prefix, split_state = self.commonprefix(word)
-            curr_suffix = word[len(common_prefix)::]
+        read = 0
+        for words in data_generator:
+            for word in words:
+                common_prefix, split_state = self.commonprefix(word)
+                curr_suffix = word[len(common_prefix)::]
 
-            if len(self.transitions[split_state]) > 0:
-                self.replace_or_register(split_state)
+                if len(self.transitions[split_state]) > 0:
+                    self.replace_or_register(split_state)
 
-            self.add_suffix(curr_suffix, split_state)
+                self.add_suffix(curr_suffix, split_state)
+            read += len(words)
+            print("read {} {}".format(read, "\r"), flush=True)
         self.replace_or_register(self.initial_state)
         self.tarjan.store_state(self.initial_state,
                                     self.transitions[self.initial_state],

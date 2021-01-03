@@ -6,6 +6,7 @@ MESSAGES = {
     "de" : {
         "welcome" :"Was möchtest Du tun?",
         "options" : {
+            "compute" : "(0) Automat berechnen",
             "check_word" : "(1) Wort abfragen",
             "draw_automaton" : "(2) Automaten zeichnen",
             "save" : "(3) Automat Speichern",

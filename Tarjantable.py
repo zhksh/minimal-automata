@@ -7,8 +7,12 @@ class Tarjantable():
         self.tt = [None]
         self.last_slot = 0
         self.init_state = -1
-        self.trans_cell_desc = "trans"
-        self.state_cell_desc = "state"
+        # self.trans_cell_desc = "trans"
+        # self.state_cell_desc = "state"
+
+        # this saves some additional memory, because thats what the tt is all about, no ?
+        self.trans_cell_desc = True
+        self.state_cell_desc = not self.trans_cell_desc
 
 
     def find_slot(self, state: int, transitions) -> int:
