@@ -48,9 +48,19 @@ def main():
         # default="wl.test",
         default="wordlist.txt",
         help="Path to the sorted wordlist")
+    parser.add_argument(
+        "-f",
+        "--filename",
+        type=str,
+        default="automaton.pkl",
+        help="Filename for saved automaton")
+    parser.add_argument(
+        "-bs",
+        "--blocksize",
+        type=int,
+        default=100,
+        help="Blocksize for data generator")
     args = parser.parse_args()
-
-    filename = "automaton.pkl"
 
     # build automaton
     min_dict = None
@@ -60,8 +70,6 @@ def main():
     language = "de"
     allowed_options = set("X")
     while True:
-
-
         print(MESSAGES[language]["welcome"])
         if min_dict is None:
             print("{}{}".format("\t", MESSAGES[language]["options"]["compute"]))
@@ -75,7 +83,7 @@ def main():
             print("{}{}".format("\t", MESSAGES[language]["options"]["draw_automaton"]))
             allowed_options.add("2")
 
-        if file_exists(filename):
+        if file_exists(args.filename):
             print("{}{}".format("\t", MESSAGES[language]["options"]["load"]))
             allowed_options.add("4")
         print("{}{}".format("\t", MESSAGES[language]["options"]["exit"]))
@@ -86,7 +94,7 @@ def main():
         if choice in allowed_options:
             if choice == "0":
                 with open(args.wordlist, encoding='utf-8') as fh:
-                    min_dict = MinDict(read_file_generator(fh, 100))
+                    min_dict = MinDict(read_file_generator(fh, args.blocksize))
                     tarjan = min_dict.tarjan
                 continue
 
@@ -105,12 +113,12 @@ def main():
                 continue
 
             if choice == "3" :
-                save(tarjan, filename)
+                save(tarjan, args.filename)
                 print("\n\033[96m" + MESSAGES[language]["automaton_saved"] + "\033[0m\n")
                 continue
 
             if choice == "4" :
-                tarjan = load(tarjan, filename)
+                tarjan = load(tarjan, args.filename)
                 print("\n\033[96m" + MESSAGES[language]["automaton_loaded"] + "\033[0m\n")
                 continue
 
