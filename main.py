@@ -32,6 +32,7 @@ def read_file_generator(fh, blocksize):
         if len(lines) == blocksize:
             yield lines
             lines = []
+    yield lines
 
 
 def main():

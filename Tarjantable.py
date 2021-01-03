@@ -44,7 +44,7 @@ class Tarjantable():
         return state_slot
 
 
-    def inc_last_slot(self):
+    def inc_last_slot(self) -> None:
         while not self.last_slot >= len(self.tt) and self.tt[self.last_slot] is not None:
             self.last_slot += 1
 
