@@ -34,6 +34,12 @@ def read_file_generator(fh, blocksize):
             lines = []
     yield lines
 
+# def find_in_file(fh, string):
+#     lines = fh.read().splitlines()
+#     for l in lines:
+#         if string == l: return True
+#     return False
+
 
 def main():
     """
@@ -101,10 +107,19 @@ def main():
 
             if choice == "1":
                 word = input(MESSAGES[language]["wordinput"])
+                import time
+                # fh = open(args.wordlist)
+                now = time.time()
                 if tarjan.is_in_language(word):
                     print(f"\n\033[92m\"{word}\"\033[0m " + MESSAGES[language]["wordInLang"] + "\n")
                 else:
                     print(f"\n\033[91m\"{word}\"\033[0m " + MESSAGES[language]["wordNotInLang"] + "\n")
+                print("took {}".format(time.time()-now))
+
+                # now = time.time()
+                # print(find_in_file(fh, word))
+                # print("filesearch took {}".format(time.time()-now))
+
                 continue
 
             if choice == "2":
@@ -128,7 +143,6 @@ def main():
                 break
 
         print("\n\033[91m" + MESSAGES[language]["warning"] + "\033[0m\n")
-        print('\r', flush=True)
 
 
 
