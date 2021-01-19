@@ -3,7 +3,7 @@
 Entry file for the MinDict Implementation.
 """
 
-from argparse import ArgumentParser,RawTextHelpFormatter
+from argparse import ArgumentParser,RawTextHelpFormatter,ArgumentDefaultsHelpFormatter
 from daciuk import MinDict
 from draw import draw_automaton
 from ui_strings import MESSAGES
@@ -51,7 +51,9 @@ def main():
     Erweiterungen
         Grafische Darstellung
         Speichern/Laden
+            nur die Tarjan-Tabelle wird gespeichert
         Tarjan-Tabelle 
+            wird bei der Konstruktion berechnet für die Überprüfung der Zugehörigkeit von Wörtern verwendet
     
     """
     # Parse arguments
@@ -62,19 +64,19 @@ def main():
         "--wordlist",
         type=str,
         default="wordlist.txt",
-        help="Path to the sorted wordlist")
+        help="Path to the sorted wordlist (default: %(default)s)")
     parser.add_argument(
         "-f",
         "--filename",
         type=str,
         default="automaton.pkl",
-        help="Filename for saved automaton")
+        help="Filename for saving/loading automaton (default: %(default)s)")
     parser.add_argument(
         "-cs",
         "--chunksize",
         type=int,
         default=100,
-        help="Chunksize in lines from wordlist")
+        help="Chunksize in lines from wordlist (default: %(default)s)")
     args = parser.parse_args()
 
     min_dict = None
