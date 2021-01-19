@@ -22,6 +22,7 @@ MESSAGES = {
         "wordNotInLang" : "ist nicht Teil der Sprache.",
         "wordInLang" : "ist Teil der Sprache.",
         "warning" : "Eingabe konnte nicht zugeordnet werden.",
+        "error" : "Ein Fehler ist aufgetreten",
         "bye": "Auf Wiedersehen :)"
     }
 }

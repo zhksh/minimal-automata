@@ -130,7 +130,9 @@ def main():
                     print(MESSAGES[language]["bye"])
                     break
         except Exception as e:
+            print("\n\033[91m" + MESSAGES[language]["error"] + "\033[0m\n")
             print(e)
+            # raise e
             continue
 
         print("\n\033[91m" + MESSAGES[language]["warning"] + "\033[0m\n")
