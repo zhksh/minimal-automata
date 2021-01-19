@@ -30,7 +30,7 @@ def file_exists(filename) -> bool:
 def read_file_generator(fh, blocksize):
     lines = []
     for line in fh:
-        lines.append(line)
+        lines.append(line.rstrip())
         if len(lines) == blocksize:
             yield lines
             lines = []
@@ -48,7 +48,6 @@ def main():
         "-wl",
         "--wordlist",
         type=str,
-        # default="wl.test",
         default="wordlist.txt",
         help="Path to the sorted wordlist")
     parser.add_argument(

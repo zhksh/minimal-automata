@@ -5,9 +5,9 @@ class Tarjantable():
 
     def __init__(self) -> None:
         self.tt = [None]
-        self.last_slot = 0
         self.trans_cell_desc = True
         self.state_cell_desc = not self.trans_cell_desc
+        self.last_slot = 0
         self.init_state = -1
 
 
@@ -70,15 +70,23 @@ class Tarjantable():
 
 
     def lookup(self, label: str, state: int) -> (bool, int, bool):
-        """look for the contents of a cell"""
+        """lookup transition"""
         position = ord(label)
         if position + state > len(self.tt): return None
 
         return self.tt[state+position]
 
 
+    def lookup_state(self,state: int):
+        """lookup statecell, new method because used differently"""
+        if state > len(self.tt): return None
+
+        return self.tt[state]
+
+
     def is_in_language(self, word: str) -> bool:
         state = self.init_state
+        transition = None
         for c in word:
             transition = self.lookup(c, state)
             if transition is not None \
@@ -88,6 +96,5 @@ class Tarjantable():
             else:
                 return False
 
-        return transition is not None \
-               and transition[0] == self.state_cell_desc \
-               and transition[2]
+        #lookup last state and check wether its final
+        return self.lookup_state(state)[2]
