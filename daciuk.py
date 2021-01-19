@@ -39,6 +39,8 @@ class MinDict:
                 self.add_suffix(curr_suffix, split_state)
             read += len(words)
             print("read {} {}".format(read, "\r"), flush=True)
+        if len(self.transitions) == 0:
+            self.transitions[self.initial_state] = OrderedDict()
         self.replace_or_register(self.initial_state)
         self.tarjan.store_state(self.initial_state,
                                     self.transitions[self.initial_state],
