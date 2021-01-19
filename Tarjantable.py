@@ -72,8 +72,7 @@ class Tarjantable():
     def lookup(self, label: str, state: int) -> (bool, int, bool):
         """lookup transition"""
         position = ord(label)
-        if position + state > len(self.tt): return None
-        # if position + state > len(self.tt)-1: return None
+        if position + state > len(self.tt)-1: return None
 
         return self.tt[state+position]
 
