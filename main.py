@@ -3,7 +3,7 @@
 Entry file for the MinDict Implementation.
 """
 
-from argparse import ArgumentParser
+from argparse import ArgumentParser,RawTextHelpFormatter,ArgumentDefaultsHelpFormatter
 from daciuk import MinDict
 from draw import draw_automaton
 from ui_strings import MESSAGES
@@ -42,26 +42,42 @@ def main():
     Central user interface.
     """
 
+    description = """
+    Minimaler Lexikonautomat, Basismodul CL WS 20/21
+    Authors:
+        Philipp Koch
+        Pascal Guldener
+    
+    Erweiterungen
+        Grafische Darstellung
+        Speichern/Laden
+            nur die Tarjan-Tabelle wird gespeichert
+        Tarjan-Tabelle 
+            wird bei der Konstruktion berechnet für die Überprüfung der Zugehörigkeit 
+            von Wörtern zur Sprache des Automaten verwendet
+    
+    """
     # Parse arguments
-    parser = ArgumentParser(description="Minimaler Lexikonautomat, Basismodul CL WS 20/21")
+    parser = ArgumentParser(description=description,
+                                 formatter_class=RawTextHelpFormatter)
     parser.add_argument(
         "-wl",
         "--wordlist",
         type=str,
         default="wordlist.txt",
-        help="Path to the sorted wordlist")
+        help="Path to the sorted wordlist (default: %(default)s)")
     parser.add_argument(
         "-f",
         "--filename",
         type=str,
         default="automaton.pkl",
-        help="Filename for saved automaton")
+        help="Filename for saving/loading automaton (default: %(default)s)")
     parser.add_argument(
-        "-bs",
-        "--blocksize",
+        "-cs",
+        "--chunksize",
         type=int,
         default=100,
-        help="Blocksize for data generator")
+        help="Chunksize in lines from wordlist (default: %(default)s)")
     args = parser.parse_args()
 
     min_dict = None
@@ -95,7 +111,7 @@ def main():
             if choice in allowed_options:
                 if choice == "0":
                     with open(args.wordlist, encoding='utf-8') as fh:
-                        min_dict = MinDict(read_file_generator(fh, args.blocksize))
+                        min_dict = MinDict(read_file_generator(fh, args.chunksize))
                         tarjan = min_dict.tarjan
                     continue
 
@@ -132,7 +148,6 @@ def main():
         except Exception as e:
             print("\n\033[91m" + MESSAGES[language]["error"] + "\033[0m\n")
             print(e)
-            # raise e
             continue
 
         print("\n\033[91m" + MESSAGES[language]["warning"] + "\033[0m\n")
