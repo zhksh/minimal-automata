@@ -6,16 +6,13 @@ class Tarjantable():
     def __init__(self) -> None:
         self.tt = [None]
         self.last_slot = 0
-        self.init_state = -1
-        # self.trans_cell_desc = "trans"
-        # self.state_cell_desc = "state"
-
-        # this saves some additional memory, because thats what the tt is all about, no ?
         self.trans_cell_desc = True
         self.state_cell_desc = not self.trans_cell_desc
+        self.init_state = -1
 
 
-    def find_slot(self, state: int, transitions) -> int:
+
+    def find_slot(self, state: int, transitions: Dict[str, int]) -> int:
         """we need to find an index that is free and has free offsets for each transition"""
 
         slot = self.last_slot
@@ -35,12 +32,14 @@ class Tarjantable():
     def store_state(self, state: int, transitions: Dict[str, int], is_final: bool, is_init=False) -> int:
         """populate the array, a cell is a simple tuple .
          the original state_id is left only for debugging purposes"""
+
         state_slot = self.find_slot(state, transitions)
         self.tt[state_slot] = (self.state_cell_desc, state, is_final)
         for label, target in transitions.items():
             self.tt[state_slot + ord(label)] = (self.trans_cell_desc, label, self.index_of(target))
         self.inc_last_slot()
         if is_init: self.init_state = state_slot
+
         return state_slot
 
 
@@ -49,8 +48,8 @@ class Tarjantable():
             self.last_slot += 1
 
 
-    def index_of(self, state) -> int:
-        """find the index of a previously added state, this is only used for construction,
+    def index_of(self, state: int) -> int:
+        """find the index of a previously added state, this is only used at construction time,
         after that state stateids and indexes are consistent"""
 
         for i, cell in enumerate(self.tt,0):
@@ -60,7 +59,7 @@ class Tarjantable():
         return -1
 
 
-    def is_empty_or_alloc(self, slot, char) -> bool:
+    def is_empty_or_alloc(self, slot: int, char: str) -> bool:
         """before inserting new elements the array needs to be checked and adjusted for length and the cell for emptyness"""
 
         next_index = slot + ord(char)
@@ -70,7 +69,7 @@ class Tarjantable():
         return self.tt[next_index] is None
 
 
-    def lookup(self, label, state) -> tuple:
+    def lookup(self, label: str, state: int) -> (bool, int, bool):
         """look for the contents of a cell"""
         position = ord(label)
         if position + state > len(self.tt): return None
@@ -78,7 +77,7 @@ class Tarjantable():
         return self.tt[state+position]
 
 
-    def is_in_language(self, word) -> bool:
+    def is_in_language(self, word: str) -> bool:
         state = self.init_state
         for c in word:
             transition = self.lookup(c, state)
@@ -89,4 +88,6 @@ class Tarjantable():
             else:
                 return False
 
-        return True
+        return transition is not None \
+               and transition[0] == self.state_cell_desc \
+               and transition[2]

@@ -14,11 +14,13 @@ def save(object, filename):
     with open(filename, 'wb') as file:
         pickle.dump(object, file, pickle.HIGHEST_PROTOCOL)
 
+
 def load(object, filename):
     import pickle
     with open(filename, 'rb') as file:
         object = pickle.load(file)
         return object
+
 
 def file_exists(filename) -> bool:
     import os.path
@@ -63,7 +65,6 @@ def main():
         help="Blocksize for data generator")
     args = parser.parse_args()
 
-    # build automaton
     min_dict = None
     tarjan = None
 

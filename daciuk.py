@@ -51,7 +51,6 @@ class MinDict:
         Method for replacing superflous states.
         """
 
-        # this is O(1) so ..
         last_child = next(reversed(self.transitions[state].items()))
         last_child_label, last_child_state = last_child[0], last_child[1]
 
