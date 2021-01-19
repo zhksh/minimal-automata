@@ -45,7 +45,7 @@ def main():
     description = """
     Minimaler Lexikonautomat, Basismodul CL WS 20/21
     Authors:
-        Phillip Koch
+        Philipp Koch
         Pascal Guldener
     
     Erweiterungen
@@ -53,7 +53,8 @@ def main():
         Speichern/Laden
             nur die Tarjan-Tabelle wird gespeichert
         Tarjan-Tabelle 
-            wird bei der Konstruktion berechnet für die Überprüfung der Zugehörigkeit von Wörtern verwendet
+            wird bei der Konstruktion berechnet für die Überprüfung der Zugehörigkeit 
+            von Wörtern zur Sprache des Automaten verwendet
     
     """
     # Parse arguments
