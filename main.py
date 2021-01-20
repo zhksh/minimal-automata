@@ -86,7 +86,7 @@ def main():
 
     # interact with the user
     language = "de"
-    allowed_options = set("X")
+    allowed_options = set(["X", ""])
     while True:
         try:
             print(MESSAGES[language]["welcome"])
