@@ -54,7 +54,7 @@ def main():
         Speichern/Laden
             nur die Tarjan-Tabelle wird gespeichert
         Tarjan-Tabelle 
-            wird bei der Konstruktion berechnet für die Überprüfung der Zugehörigkeit 
+            wird bei der Konstruktion berechnet und für die Überprüfung der Zugehörigkeit 
             von Wörtern zur Sprache des Automaten verwendet
     
     """
@@ -143,7 +143,7 @@ def main():
                     print("\n\033[96m" + MESSAGES[language]["automaton_loaded"] + "\033[0m\n")
                     continue
 
-                if choice == "X" :
+                if choice == "X" or choice == "" :
                     print(MESSAGES[language]["bye"])
                     break
         except Exception as e:
